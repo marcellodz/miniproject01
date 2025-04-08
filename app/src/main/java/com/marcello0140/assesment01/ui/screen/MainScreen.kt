@@ -1,5 +1,6 @@
 package com.marcello0140.assesment01.ui.screen
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -56,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import com.marcello0140.assesment01.R
 import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
+import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -144,6 +146,8 @@ fun ScreenContent(
 
     var hasilKonversi by remember { mutableStateOf<Double?>(null) }
 
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -175,6 +179,8 @@ fun ScreenContent(
             )
 
             val scrollState = rememberScrollState()
+
+
 
             ExposedDropdownMenu(
                 expanded = expanded,
@@ -267,13 +273,31 @@ fun ScreenContent(
 
         hasilKonversi?.let {
             Text(
-                text = "Hasil Konversi: %.2f %s".format(it, selectedCurrency),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
+                text = stringResource(R.string.hasilKonversi).format(it, selectedCurrency),
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.SemiBold
+                )
             )
+            Button(
+                onClick = {
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "Hasil konversi dari Rp $nominalValue adalah %.2f %s".format(it, selectedCurrency)
+                        )
+                        type = "text/plain"
+                    }
+                    context.startActivity(Intent.createChooser(shareIntent, "Bagikan hasil konversi via"))
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.bagikan))
+            }
+
         }
+
     }
 
 }

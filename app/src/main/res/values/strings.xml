@@ -5,4 +5,8 @@
     <string name="input">Masukkan Nominal (IDR)</string>
     <string name="hitung">Hitung</string>
     <string name="rp">RP.</string>
+    <string name="hasilKonversi">Hasil Konversi: %.2f %s</string>
+    <string name="bagikan">Bagikan Hasil</string>
+    <string name="bagikanHasil">Hasil konversi dari Rp %1$.0f adalah %2$.2f %3$s</string>
+
 </resources>
