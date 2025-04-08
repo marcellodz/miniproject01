@@ -1,16 +1,23 @@
 package com.marcello0140.assesment01.ui.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
@@ -31,17 +38,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import com.marcello0140.assesment01.R
 import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
 
@@ -116,16 +128,19 @@ fun ScreenContent(
     modifier: Modifier = Modifier
 ){
     val currencyList = listOf("USD", "EUR", "JPY", "SG")
+    val currencyFlagMap = mapOf(
+        "USD" to R.drawable.us,
+        "EUR" to R.drawable.eu,
+        "JPY" to R.drawable.jp,
+        "SG" to R.drawable.sg
+    )
 
     var expanded by remember { mutableStateOf(false) }
     var selectedCurrency by remember { mutableStateOf(currencyList[0]) }
 
-    var nominal by remember { mutableStateOf("") }
+    var nominalRaw by remember { mutableStateOf("") }
 
-    val formattedNominal = remember(nominal) {
-        nominal.filter { it.isDigit() }.chunked(3).joinToString(".")
-    }
-
+    val nominalValue = nominalRaw.toLongOrNull() ?: 0L
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -141,45 +156,106 @@ fun ScreenContent(
                 onValueChange = { },
                 readOnly = true,
                 label = {Text(stringResource(R.string.mataUangTujuan))},
+                leadingIcon = {
+                    currencyFlagMap[selectedCurrency]?.let {
+                        Image(
+                            painter = painterResource(id = it),
+                            contentDescription = selectedCurrency,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 },
                 modifier = Modifier.menuAnchor().fillMaxWidth()
             )
 
+            val scrollState = rememberScrollState()
+
             ExposedDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.heightIn(max = 150.dp)
             ) {
-                currencyList.forEach{ currency->
-                    DropdownMenuItem(
-                        text = { Text(currency) },
-                        onClick = {
-                            selectedCurrency = currency
-                            expanded = false
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 150.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .verticalScroll(scrollState)
+                            .fillMaxWidth()
+                            .padding(end = 12.dp) // biar gak ketiban scrollbar
+                    ) {
+                        currencyList.forEach { currency ->
+                            DropdownMenuItem(
+                                text = {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        currencyFlagMap[currency]?.let {
+                                            Image(
+                                                painter = painterResource(id = it),
+                                                contentDescription = currency,
+                                                modifier = Modifier.size(24.dp)
+                                            )
+                                        }
+                                        Text(
+                                            text = currency,
+                                            modifier = Modifier.padding(start = 8.dp)
+                                        )
+                                    }
+                                },
+                                onClick = {
+                                    selectedCurrency = currency
+                                    expanded = false
+                                }
+                            )
                         }
-                    )
+                    }
+
+                    //scrollbar nya
+                    if (scrollState.maxValue > 0) {
+                        val scrollRatio = scrollState.value.toFloat() / scrollState.maxValue.toFloat()
+                        val indicatorHeightRatio = 150f / (currencyList.size * 50f)
+                        val indicatorHeight = indicatorHeightRatio * 150f
+
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = scrollRatio * (150f - indicatorHeight).coerceAtLeast(0f).dp)
+                                .width(4.dp)
+                                .height(indicatorHeight.dp)
+                                .background(Color.Gray, RoundedCornerShape(50))
+                        )
+                    }
                 }
             }
         }
 
         TextField(
-            value = formattedNominal,
-            onValueChange = {
-                nominal = it.filter { char -> char.isDigit() }
+            value = nominalRaw,
+            onValueChange = { newValue ->
+                nominalRaw = newValue.filter { it.isDigit() }
             },
             label = { Text (stringResource(R.string.input)) },
+            leadingIcon = {
+                Text(stringResource(R.string.rp), style =  MaterialTheme.typography.headlineMedium)
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            ),
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
 
         Button(
             onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            enabled = nominal.isNotBlank()
+            enabled = nominalValue > 0,
+            modifier = Modifier.fillMaxWidth()
+                            .padding(top = 8.dp)
         ) {
             Text (stringResource(R.string.hitung))
         }
