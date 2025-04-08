@@ -71,7 +71,12 @@ fun MainScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-
+                navigationIcon ={
+                    Image(
+                        painter = painterResource(R.drawable.logo_idr_swap),
+                        contentDescription = stringResource( R.string.app_name),
+                        modifier = Modifier.padding(start = 4.dp).size(60.dp))
+                },
                 title = {
                     Text(
                         text = stringResource(R.string.app_name).uppercase(),
