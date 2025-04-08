@@ -37,7 +37,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +46,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -55,12 +56,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
-import com.marcello0140.assesment01.R
-import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.marcello0140.assesment01.R
 import com.marcello0140.assesment01.navigation.Screen
+import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -145,14 +145,14 @@ fun ScreenContent(
         "SG" to R.drawable.sg
     )
 
-    var expanded by remember { mutableStateOf(false) }
-    var selectedCurrency by remember { mutableStateOf(currencyList[0]) }
+    var expanded by rememberSaveable  { mutableStateOf(false) }
+    var selectedCurrency by rememberSaveable  { mutableStateOf(currencyList[0]) }
 
-    var nominalRaw by remember { mutableStateOf("") }
+    var nominalRaw by rememberSaveable { mutableStateOf("") }
 
     val nominalValue = nominalRaw.toLongOrNull() ?: 0L
 
-    var hasilKonversi by remember { mutableStateOf<Double?>(null) }
+    var hasilKonversi by rememberSaveable { mutableStateOf<Double?>(null) }
 
     val context = LocalContext.current
 
