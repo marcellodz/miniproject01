@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Idr Swap</string>
     <string name="tentangAplikasi">Tentang Aplikasi</string>
+    <string name="mataUangTujuan">Mata Uang Tujuan</string>
+    <string name="input">Masukkan Nominal (IDR)</string>
+    <string name="hitung">Hitung</string>
 </resources>
