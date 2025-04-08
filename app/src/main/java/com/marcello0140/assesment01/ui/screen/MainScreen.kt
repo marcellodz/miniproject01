@@ -141,6 +141,9 @@ fun ScreenContent(
     var nominalRaw by remember { mutableStateOf("") }
 
     val nominalValue = nominalRaw.toLongOrNull() ?: 0L
+
+    var hasilKonversi by remember { mutableStateOf<Double?>(null) }
+
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -252,15 +255,38 @@ fun ScreenContent(
         )
 
         Button(
-            onClick = { },
+            onClick = {
+                hasilKonversi = countKurs(nominalValue, selectedCurrency)
+            },
             enabled = nominalValue > 0,
             modifier = Modifier.fillMaxWidth()
                             .padding(top = 8.dp)
         ) {
             Text (stringResource(R.string.hitung))
         }
+
+        hasilKonversi?.let {
+            Text(
+                text = "Hasil Konversi: %.2f %s".format(it, selectedCurrency),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
+        }
     }
 
+}
+
+private fun countKurs(nominal: Long, mataUang: String): Double {
+    val rate = when(mataUang){
+        "USD" ->  0.00005934
+        "EUR" -> 0.00005399
+        "JPY" -> 0.00874
+        "SG"  -> 0.00007999
+        else -> 0.0
+    }
+    return nominal * rate
 }
 
 @Preview(showBackground = true)
