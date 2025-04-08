@@ -228,6 +228,8 @@ fun ScreenContent(
                                 onClick = {
                                     selectedCurrency = currency
                                     expanded = false
+                                    nominalRaw = ""
+                                    hasilKonversi = null
                                 }
                             )
                         }
