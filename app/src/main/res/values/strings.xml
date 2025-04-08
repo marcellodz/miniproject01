@@ -8,5 +8,12 @@
     <string name="hasilKonversi">Hasil Konversi: %.2f %s</string>
     <string name="bagikan">Bagikan Hasil</string>
     <string name="bagikanHasil">Hasil konversi dari Rp %1$.0f adalah %2$.2f %3$s</string>
+    <string name="copyright">© 2025 IDR Swap. Aplikasi ini merupakan mini project untuk menyelesaikan
+        Assessment 1 mata kuliah Mobile Programming 1.Seluruh konten dan fungsionalitas dikembangkan
+        untuk tujuan pembelajaran. Aplikasi ini 100% hasil pengembangan pribadi dengan beberapa referensi.</string>
+    <string name="kembali">Kembali</string>
+    <string name="footer">Dirancang dengan oleh Marcello Dic Zigo✨</string>
+    <string name="info_kelas">D3 RPLA - 46 01</string>
+
 
 </resources>

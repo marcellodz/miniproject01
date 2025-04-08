@@ -58,11 +58,14 @@ import androidx.compose.ui.unit.times
 import com.marcello0140.assesment01.R
 import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.marcello0140.assesment01.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onAboutClick: () ->Unit = {}
+    navController: NavHostController
 ) {
 
     Scaffold(
@@ -92,7 +95,7 @@ fun MainScreen(
                 },
 
                 actions = {
-                    IconButton(onClick = { onAboutClick() },
+                    IconButton(onClick = { navController.navigate(Screen.About.route) },
                                 modifier = Modifier.padding(end = 8.dp)
                     ){
                         Box(
@@ -120,7 +123,7 @@ fun MainScreen(
         }
     ){
         innerPadding ->
-        ScreenContent(Modifier.padding(innerPadding))
+        ScreenContent(Modifier.padding(innerPadding).padding(16.dp))
     }
 }
 
@@ -318,6 +321,6 @@ private fun countKurs(nominal: Long, mataUang: String): Double {
 @Composable
 fun MainScreenPreview() {
     IdrSwapTheme {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }
