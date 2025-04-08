@@ -1,13 +1,13 @@
 package com.marcello0140.assesment01.ui.screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,27 +22,38 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
+
                 title = {
                     Text(
                         text = stringResource(R.string.app_name),
                         style = MaterialTheme.typography.titleLarge
                     )
-                }
+                },
+
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                )
             )
         }
     ){
         innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            Text("Aplikasi Konversi Rupiah")
-        }
+        ScreenContent(Modifier.padding(innerPadding))
     }
 }
 
+@Composable
+fun ScreenContent(
+    modifier: Modifier = Modifier
+){
+    Text(
+        text = "Aplikasi Konversi nilai Rupiah ke Mata uang Asing",
+        modifier = modifier
+    )
+}
+
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun MainScreenPreview() {
     IdrSwapTheme {
