@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.marcello0140.assesment01.navigation.SetupNavGraph
-import com.marcello0140.assesment01.ui.screen.MainScreen
 import com.marcello0140.assesment01.ui.theme.IdrSwapTheme
 
 class MainActivity : ComponentActivity() {
