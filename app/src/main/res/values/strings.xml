@@ -14,6 +14,7 @@
     <string name="kembali">Kembali</string>
     <string name="footer">Dirancang oleh Marcello Dic Zigo✨</string>
     <string name="info_kelas">D3 RPLA - 46 01</string>
+    <string name="sapaan">Selamat datang di IDR SWAP!\nGunakan aplikasi ini untuk menghitung nilai tukar dari Rupiah ke mata uang pilihanmu. Kurs yang digunakan merupakan data terakhir pada tanggal 8 Maret 2025.</string>
 
 
 </resources>

@@ -80,6 +80,8 @@ fun MainScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.app_name).uppercase(),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
                         style = TextStyle(
                             brush = Brush.linearGradient(
                                 colors = listOf(
@@ -87,8 +89,6 @@ fun MainScreen(
                                     MaterialTheme.colorScheme.tertiary
                                 )
                             ),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.ExtraBold,
                             shadow = Shadow(
                                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
                                 offset = Offset(2f, 2f),
@@ -105,8 +105,8 @@ fun MainScreen(
                     ){
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(50))
-                                .background(MaterialTheme.colorScheme.primary)
+                                .clip(RoundedCornerShape(20))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
                                 .padding(6.dp)
                         ){
                             Icon(
@@ -120,8 +120,7 @@ fun MainScreen(
                 },
 
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
 
             )
@@ -162,6 +161,14 @@ fun ScreenContent(
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Text(
+            text = stringResource(R.string.sapaan),
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        )
+
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }
@@ -204,7 +211,6 @@ fun ScreenContent(
                         modifier = Modifier
                             .verticalScroll(scrollState)
                             .fillMaxWidth()
-                            .padding(end = 12.dp) // biar gak ketiban scrollbar
                     ) {
                         currencyList.forEach { currency ->
                             DropdownMenuItem(
@@ -258,6 +264,7 @@ fun ScreenContent(
             value = nominalRaw,
             onValueChange = { newValue ->
                 nominalRaw = newValue.filter { it.isDigit() }
+                hasilKonversi = null
             },
             label = { Text (stringResource(R.string.input)) },
             leadingIcon = {
