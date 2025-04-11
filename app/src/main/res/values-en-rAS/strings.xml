@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Idr Swap</string>
+    <string name="tentangAplikasi">About App</string>
+    <string name="mataUangTujuan">"destination currency "</string>
+    <string name="input">Enter Nominal(IDR)</string>
+    <string name="hitung">Count</string>
+    <string name="rp">RP.</string>
+    <string name="hasilKonversi">Result : %.2f %s</string>
+    <string name="bagikan">Share Result</string>
+    <string name="bagikanHasil">"Result Convert of Rp %1$.0f is "</string>
+    <string name="copyright">copyright app/src/main/res false © 2025 IDR Swap. This application is a mini project to complete Assessment 1 of the Mobile Programming course 1. All content and functionality are developed for learning purposes. This application is 100% the result of personal development with several references.</string>
+    <string name="kembali">Back</string>
+    <string name="footer">Designed by Marcello Dic Zigo✨</string>
+    <string name="info_kelas">D3 RPLA - 46 01</string>
+    <string name="sapaan">" Welcome to IDR SWAP! Use this application to calculate the exchange rate from Rupiah to your preferred currency. The exchange rate used is the latest data on March 8, 2025."</string>
+    <string name="invalid_input">Can\'t enter 0 or empty field</string>
+</resources>
