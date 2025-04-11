@@ -153,6 +153,8 @@ fun ScreenContent(
 
     var hasilKonversi by rememberSaveable { mutableStateOf<Double?>(null) }
 
+    var showError by rememberSaveable { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     Column(
@@ -265,6 +267,7 @@ fun ScreenContent(
             onValueChange = { newValue ->
                 nominalRaw = newValue.filter { it.isDigit() }
                 hasilKonversi = null
+                showError = false
             },
             label = { Text (stringResource(R.string.input)) },
             leadingIcon = {
@@ -275,18 +278,33 @@ fun ScreenContent(
             ),
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
+
         )
+
+        if (showError){
+            Text(
+                text = stringResource(R.string.invalid_input),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 1.dp)
+            )
+        }
 
         Button(
             onClick = {
-                hasilKonversi = countKurs(nominalValue, selectedCurrency)
+                if(nominalValue <= 0){
+                    showError = true
+                }else{
+                    hasilKonversi = countKurs(nominalValue, selectedCurrency)
+                    showError = false
+                }
             },
-            enabled = nominalValue > 0,
             modifier = Modifier.fillMaxWidth()
                             .padding(top = 8.dp)
         ) {
             Text (stringResource(R.string.hitung))
         }
+
 
         hasilKonversi?.let {
             Text(
